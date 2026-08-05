@@ -1,0 +1,56 @@
+/* ── Styling umum aplikasi ────────────────────────────────────────── */
+
+.main .block-container {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  max-width: 1100px;
+}
+
+/* Header utama */
+h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.5px;
+}
+
+/* Kartu container (st.container(border=True)) */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+  border-radius: 14px !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease;
+}
+div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* Metric styling */
+div[data-testid="stMetric"] {
+  background-color: rgba(120, 120, 120, 0.06);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+}
+div[data-testid="stMetricValue"] {
+  font-size: 1.4rem;
+}
+
+/* Tombol utama */
+button[kind="primary"] {
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 1.2rem !important;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+  border-right: 1px solid rgba(120, 120, 120, 0.15);
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 768px) {
+  .main .block-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  div[data-testid="stMetricValue"] {
+    font-size: 1.1rem;
+  }
+}

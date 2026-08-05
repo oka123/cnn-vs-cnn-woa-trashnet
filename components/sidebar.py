@@ -1,0 +1,64 @@
+"""Komponen sidebar: pemilihan model + info pendukung."""
+
+import streamlit as st
+
+from config import CLASS_DISPLAY_NAMES, CLASS_NAMES, MODEL_OPTIONS
+from utils.model_loader import get_model_and_metadata
+
+
+def render_sidebar():
+    """Render sidebar dan return (model_choice, model, model_metadata)."""
+    with st.sidebar:
+        st.markdown("## ⚙️ Pengaturan Model")
+
+        model_choice = st.selectbox(
+            "Pilih model klasifikasi",
+            options=list(MODEL_OPTIONS.keys()),
+            help="CNN Baseline menggunakan hyperparameter default. "
+                 "CNN-WOA menggunakan hyperparameter hasil optimasi Whale Optimization Algorithm.",
+        )
+
+        st.caption(MODEL_OPTIONS[model_choice]["description"])
+
+        with st.spinner(f"Memuat model {model_choice}..."):
+            model, model_metadata = get_model_and_metadata(model_choice)
+
+        st.success(f"Model **{model_choice}** siap digunakan.", icon="✅")
+
+        # ── Info pendukung model ──────────────────────────────────────
+        if model_metadata:
+            st.markdown("### 📊 Info Model")
+            test_acc = model_metadata.get("test_accuracy")
+            if test_acc is not None:
+                if model_choice == "CNN-WOA":
+                    st.metric(
+                        "Akurasi pada Data Uji",
+                        f"{test_acc * 100:.2f}%",
+                        delta="+15.53% vs Baseline",
+                        delta_color="normal",
+                    )
+                else:
+                    st.metric("Akurasi pada Data Uji", f"{test_acc * 100:.2f}%")
+
+            hyperparams = model_metadata.get("hyperparameters", {})
+            if hyperparams:
+                with st.expander("Detail Hyperparameter"):
+                    for key, value in hyperparams.items():
+                        st.write(f"**{key}**: {value}")
+
+        st.divider()
+
+        # ── Daftar kelas yang dikenali ────────────────────────────────
+        st.markdown("### 🏷️ Kelas yang Dikenali")
+        for cls in CLASS_NAMES:
+            st.write(f"- {CLASS_DISPLAY_NAMES.get(cls, cls)}")
+
+        st.divider()
+        st.caption(
+            "Aplikasi ini mengklasifikasikan jenis sampah dari citra menggunakan "
+            "CNN yang dilatih pada dataset TrashNet. Preprocessing saat inferensi "
+            "(resize 224×224 + normalisasi) identik dengan proses saat training, "
+            "tanpa augmentasi."
+        )
+
+    return model_choice, model, model_metadata
