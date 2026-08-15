@@ -60,7 +60,7 @@ MODEL_OPTIONS = {
     },
     "YOLO26": {
         "path": os.path.join(MODELS_DIR, "yolo.pt"),
-        "description": "Model klasifikasi TrashNet menggunakan arsitektur YOLOv8/v11 dari Ultralytics.",
+        "description": "Model klasifikasi TrashNet menggunakan arsitektur YOLOv26 dari Ultralytics.",
         "metadata_key": "yolo"
     }
 }
