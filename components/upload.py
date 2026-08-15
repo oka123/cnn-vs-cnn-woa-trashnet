@@ -10,23 +10,38 @@ def render_upload_section():
     """Render uploader + preview grid. Return list of (filename, PIL.Image)."""
     st.markdown("### 📤 Unggah Citra")
 
-    uploaded_files = st.file_uploader(
-        "Pilih satu atau beberapa gambar sampah",
-        type=ALLOWED_EXTENSIONS,
-        accept_multiple_files=True,
-        help=f"Format didukung: {', '.join(ALLOWED_EXTENSIONS)}. Maksimum {MAX_UPLOAD_FILES} file.",
-    )
+    tab1, tab2 = st.tabs(["📁 Unggah File", "📷 Kamera"])
+    
+    all_uploaded_files = []
+    
+    with tab1:
+        uploaded_files = st.file_uploader(
+            "Pilih satu atau beberapa gambar sampah",
+            type=ALLOWED_EXTENSIONS,
+            accept_multiple_files=True,
+            help=f"Format didukung: {', '.join(ALLOWED_EXTENSIONS)}. Maksimum {MAX_UPLOAD_FILES} file.",
+        )
+        if uploaded_files:
+            all_uploaded_files.extend(uploaded_files)
 
-    if not uploaded_files:
-        st.info("👆 Unggah gambar untuk memulai klasifikasi.", icon="ℹ️")
+    with tab2:
+        camera_file = st.camera_input("Ambil gambar dari kamera")
+        if camera_file is not None:
+            # camera_file.name is generic like "camera_image.jpeg", which is fine.
+            all_uploaded_files.append(camera_file)
+
+    if not all_uploaded_files:
+        st.info("👆 Unggah gambar atau gunakan kamera untuk memulai klasifikasi.", icon="ℹ️")
         return []
 
-    if len(uploaded_files) > MAX_UPLOAD_FILES:
+    if len(all_uploaded_files) > MAX_UPLOAD_FILES:
         st.warning(
-            f"Anda mengunggah {len(uploaded_files)} file, tapi maksimum yang diproses "
+            f"Anda mengunggah {len(all_uploaded_files)} file, tapi maksimum yang diproses "
             f"adalah {MAX_UPLOAD_FILES}. Hanya {MAX_UPLOAD_FILES} file pertama yang dipakai."
         )
-        uploaded_files = uploaded_files[:MAX_UPLOAD_FILES]
+        all_uploaded_files = all_uploaded_files[:MAX_UPLOAD_FILES]
+
+    uploaded_files = all_uploaded_files
 
     images = []
     for file in uploaded_files:

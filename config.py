@@ -58,7 +58,7 @@ MODEL_OPTIONS = {
         "description": "Model klasifikasi menggunakan arsitektur EfficientNetB0 pre-trained.",
         "metadata_key": "efficientnetb0"
     },
-    "YOLO (Ultralytics)": {
+    "YOLO26": {
         "path": os.path.join(MODELS_DIR, "yolo.pt"),
         "description": "Model klasifikasi TrashNet menggunakan arsitektur YOLOv8/v11 dari Ultralytics.",
         "metadata_key": "yolo"
