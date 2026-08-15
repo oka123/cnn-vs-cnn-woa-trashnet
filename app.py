@@ -11,6 +11,12 @@ modular (sidebar, upload, inference, results) menjadi satu alur:
 
 import os
 
+# Konfigurasi CPU & cegah crash/segfault antara TensorFlow dan PyTorch di cloud
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["OMP_NUM_THREADS"] = "1"
+
 import streamlit as st
 
 from components.results import render_results_section
