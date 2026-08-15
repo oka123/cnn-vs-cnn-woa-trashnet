@@ -43,8 +43,15 @@ def load_model(model_path: str) -> Any:
         )
         
     if model_path.endswith(".pt"):
-        from ultralytics import YOLO
-        return YOLO(model_path)
+        try:
+            from ultralytics import YOLO
+            return YOLO(model_path)
+        except Exception as e:
+            raise RuntimeError(
+                f"Model YOLO tidak dapat dimuat di lingkungan ini.\n"
+                f"Kemungkinan penyebab: konflik TensorFlow + PyTorch di server cloud.\n"
+                f"Detail error: {e}"
+            ) from e
         
     if model_path.endswith(".h5") and "EfficientNet" in model_path:
         model = build_efficientnet_model()

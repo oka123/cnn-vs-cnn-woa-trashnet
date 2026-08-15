@@ -21,7 +21,15 @@ def render_sidebar():
         st.caption(MODEL_OPTIONS[model_choice]["description"])
 
         with st.spinner(f"Memuat model {model_choice}..."):
-            model, model_metadata = get_model_and_metadata(model_choice)
+            try:
+                model, model_metadata = get_model_and_metadata(model_choice)
+            except RuntimeError as e:
+                st.error(
+                    f"⚠️ **Model tidak dapat dimuat di lingkungan ini.**\n\n{e}\n\n"
+                    "Silakan pilih model lain (CNN Random Search atau CNN-WOA).",
+                    icon="🚫",
+                )
+                st.stop()
 
         st.success(f"Model **{model_choice}** siap digunakan.", icon="✅")
 
