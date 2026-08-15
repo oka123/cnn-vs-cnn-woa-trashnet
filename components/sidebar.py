@@ -26,7 +26,7 @@ def render_sidebar():
             except RuntimeError as e:
                 st.error(
                     f"⚠️ **Model tidak dapat dimuat di lingkungan ini.**\n\n{e}\n\n"
-                    "Silakan pilih model lain (CNN Random Search atau CNN-WOA).",
+                    "Silahkan pilih model lain (CNN Random Search atau CNN-WOA) atau kunjungi web model YOLO26 terpisah di link https://yolo-trashnet.streamlit.app/",
                     icon="🚫",
                 )
                 st.stop()
