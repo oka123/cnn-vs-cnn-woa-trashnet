@@ -1,9 +1,9 @@
-# ♻️ Klasifikasi Jenis Sampah Menggunakan CNN Baseline dan CNN-WOA
+# ♻️ Klasifikasi Jenis Sampah Menggunakan CNN Random Search (Metode Baseline) dan CNN-WOA
 
 Aplikasi web berbasis **Streamlit** untuk mengklasifikasikan jenis sampah dari citra,
 menggunakan dua model CNN yang dapat dipilih pengguna:
 
-- **CNN Baseline** — arsitektur CNN dengan hyperparameter default.
+- **CNN Random Search** — arsitektur CNN dengan hyperparameter hasil pencarian acak (Random Search).
 - **CNN-WOA** — arsitektur CNN dengan hyperparameter hasil optimasi
   _Whale Optimization Algorithm_ (WOA).
 
@@ -14,7 +14,7 @@ untuk mengenali 6 kelas: **cardboard, glass, metal, paper, plastic, trash**.
 
 ## ✨ Fitur
 
-- Pilih model klasifikasi (CNN Baseline / CNN-WOA) beserta info hyperparameter & akurasi.
+- Pilih model klasifikasi (CNN Random Search / CNN-WOA) beserta info hyperparameter & akurasi.
 - Unggah **satu atau banyak** citra sekaligus (drag & drop / file picker).
 - Preview thumbnail seluruh citra sebelum diproses.
 - Tombol **Prediksi** menjalankan inferensi untuk seluruh citra yang diunggah.
@@ -39,7 +39,7 @@ trashnet_app/
 ├── requirements.txt
 ├── README.md
 ├── models/                    # Letakkan file model & metadata di sini
-│   ├── cnn_baseline_final.keras
+│   ├── cnn_random_search_final.keras
 │   ├── cnn_woa_final.keras
 │   ├── model_metadata.json
 │   └── PLACE_MODELS_HERE.txt

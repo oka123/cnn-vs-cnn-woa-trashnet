@@ -9,19 +9,48 @@ import os
 import streamlit as st
 import tensorflow as tf
 
-from config import METADATA_PATH, MODEL_OPTIONS
+from config import METADATA_PATH, MODEL_OPTIONS, IMG_SIZE, IMG_CHANNELS, NUM_CLASSES
 
+
+def build_efficientnet_model() -> tf.keras.Model:
+    """Membangun ulang arsitektur EfficientNetB0 secara manual untuk menghindari 
+    bug Keras 3 saat memuat TFOpLambda dari file Keras 2 (.h5)."""
+    input_shape = (IMG_SIZE, IMG_SIZE, IMG_CHANNELS)
+    inputs = tf.keras.Input(shape=input_shape)
+    
+    preprocess = tf.keras.applications.efficientnet.preprocess_input(inputs * 255.0)
+    base_model = tf.keras.applications.EfficientNetB0(
+        include_top=False, weights=None, input_tensor=preprocess
+    )
+    
+    x = base_model.output
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dropout(0.4)(x)
+    outputs = tf.keras.layers.Dense(NUM_CLASSES, activation="softmax")(x)
+    
+    return tf.keras.Model(inputs=inputs, outputs=outputs, name="EfficientNetB0")
+
+
+from typing import Any
 
 @st.cache_resource(show_spinner=False)
-def load_model(model_path: str) -> tf.keras.Model:
-    """Load model .keras dari path, di-cache oleh Streamlit (resource cache)
-    supaya proses load (yang relatif berat) hanya terjadi sekali per model,
-    bukan setiap kali ada interaksi/rerun di UI."""
+def load_model(model_path: str) -> Any:
+    """Load model .keras atau .pt dari path, di-cache oleh Streamlit."""
     if not os.path.exists(model_path):
         raise FileNotFoundError(
             f"File model tidak ditemukan: {model_path}\n"
-            f"Pastikan file .keras hasil training sudah diletakkan di folder models/."
+            f"Pastikan file model sudah diletakkan di folder models/."
         )
+        
+    if model_path.endswith(".pt"):
+        from ultralytics import YOLO
+        return YOLO(model_path)
+        
+    if model_path.endswith(".h5") and "EfficientNet" in model_path:
+        model = build_efficientnet_model()
+        model.load_weights(model_path)
+        return model
+
     return tf.keras.models.load_model(model_path)
 
 
@@ -41,7 +70,7 @@ def get_model_and_metadata(model_choice: str):
     model = load_model(model_info["path"])
 
     metadata = load_metadata()
-    key = "baseline" if model_choice == "CNN Baseline" else "cnn_woa"
+    key = model_info.get("metadata_key", "")
     model_metadata = metadata.get(key, {})
 
     return model, model_metadata

@@ -1,26 +1,25 @@
 {
-  "baseline": {
+  "random_search": {
     "hyperparameters": {
-      "n_conv_layers": 2,
-      "learning_rate": 0.001,
-      "dropout_rate": 0.5,
-      "optimizer": "adam",
-      "epoch": 30,
-      "filters_base": 32
+      "n_conv_layers": 4,
+      "learning_rate": 0.0015668949432321277,
+      "dropout_rate": 0.49162004802910975,
+      "optimizer": "adamw",
+      "epoch": 46
     },
-    "test_accuracy": 0.6552631578947369,
-    "checkpoint_path": "outputs/models/cnn_baseline_best.keras",
-    "final_path": "outputs/models/cnn_baseline_final.keras"
+    "test_accuracy": 0.7447368421052631,
+    "checkpoint_path": "outputs/models/cnn_random_search_best.keras",
+    "final_path": "outputs/models/cnn_random_search_final.keras"
   },
   "cnn_woa": {
     "hyperparameters": {
       "n_conv_layers": 5,
-      "learning_rate": 0.0003520284452447978,
-      "dropout_rate": 0.1,
+      "learning_rate": 0.00033368607455444164,
+      "dropout_rate": 0.4371771312702749,
       "optimizer": "adamw",
-      "epoch": 50
+      "epoch": 49
     },
-    "test_accuracy": 0.8105263157894737,
+    "test_accuracy": 0.8131578947368421,
     "checkpoint_path": "outputs/models/cnn_woa_best.keras",
     "final_path": "outputs/models/cnn_woa_final.keras"
   },

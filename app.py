@@ -1,5 +1,5 @@
 """
-Aplikasi Web Klasifikasi Jenis Sampah — CNN Baseline vs CNN-WOA
+Aplikasi Web Klasifikasi Jenis Sampah — CNN Random Search (Metode Baseline) vs CNN-WOA
 ================================================================
 Entry point utama aplikasi Streamlit. Menghubungkan seluruh komponen
 modular (sidebar, upload, inference, results) menjadi satu alur:
@@ -21,7 +21,7 @@ from utils.preprocessing import preprocess_batch
 
 # ── Konfigurasi halaman ───────────────────────────────────────────────
 st.set_page_config(
-    page_title="Klasifikasi Sampah — CNN vs CNN-WOA",
+    page_title="Klasifikasi Sampah — CNN Random Search vs CNN-WOA",
     page_icon="♻️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -41,7 +41,7 @@ def main():
     # ── Header ────────────────────────────────────────────────────────
     st.title("♻️ Klasifikasi Jenis Sampah")
     st.markdown(
-        "Aplikasi ini membandingkan performa **CNN Baseline** dan **CNN-WOA** "
+        "Aplikasi ini membandingkan performa **CNN Random Search** dan **CNN-WOA** "
         "(CNN dengan hyperparameter hasil optimasi *Whale Optimization Algorithm*) "
         "dalam mengklasifikasikan jenis sampah dari citra."
     )
@@ -80,7 +80,7 @@ def main():
             pil_images = [img for _, img in images]
 
             image_arrays = preprocess_batch(pil_images)  # (N, 224, 224, 3), tanpa augmentasi
-            results = predict_batch(model, list(image_arrays), filenames)
+            results = predict_batch(model, list(image_arrays), filenames, pil_images)
         except Exception as e:
             st.error(f"❌ Terjadi kesalahan saat memproses inferensi: {e}", icon="⚠️")
             return

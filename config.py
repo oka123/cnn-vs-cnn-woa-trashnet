@@ -42,16 +42,27 @@ CLASS_COLORS = {
 
 # ── Path model & metadata ───────────────────────────────────────────────
 MODEL_OPTIONS = {
-    "CNN Baseline": {
-        "path": os.path.join(MODELS_DIR, "cnn_baseline_final.keras"),
-        "description": "CNN dengan hyperparameter default (2 conv layer, lr=0.001, "
-                        "dropout=0.5, Adam, 30 epoch).",
+    "CNN Random Search": {
+        "path": os.path.join(MODELS_DIR, "cnn_random_search_final.keras"),
+        "description": "CNN dengan hyperparameter hasil pencarian acak (Random Search).",
+        "metadata_key": "random_search"
     },
     "CNN-WOA": {
         "path": os.path.join(MODELS_DIR, "cnn_woa_final.keras"),
         "description": "CNN dengan hyperparameter hasil optimasi Whale Optimization "
                         "Algorithm (WOA).",
+        "metadata_key": "cnn_woa"
     },
+    "EfficientNetB0": {
+        "path": os.path.join(MODELS_DIR, "EfficientNetB0_trashnet.keras"),
+        "description": "Model klasifikasi menggunakan arsitektur EfficientNetB0 pre-trained.",
+        "metadata_key": "efficientnetb0"
+    },
+    "YOLO (Ultralytics)": {
+        "path": os.path.join(MODELS_DIR, "yolo.pt"),
+        "description": "Model klasifikasi TrashNet menggunakan arsitektur YOLOv8/v11 dari Ultralytics.",
+        "metadata_key": "yolo"
+    }
 }
 
 METADATA_PATH = os.path.join(MODELS_DIR, "model_metadata.json")

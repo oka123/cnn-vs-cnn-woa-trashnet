@@ -14,7 +14,7 @@ def render_sidebar():
         model_choice = st.selectbox(
             "Pilih model klasifikasi",
             options=list(MODEL_OPTIONS.keys()),
-            help="CNN Baseline menggunakan hyperparameter default. "
+            help="CNN Random Search menggunakan hyperparameter hasil pencarian acak. "
                  "CNN-WOA menggunakan hyperparameter hasil optimasi Whale Optimization Algorithm.",
         )
 
@@ -30,15 +30,13 @@ def render_sidebar():
             st.markdown("### 📊 Info Model")
             test_acc = model_metadata.get("test_accuracy")
             if test_acc is not None:
-                if model_choice == "CNN-WOA":
-                    st.metric(
-                        "Akurasi pada Data Uji",
-                        f"{test_acc * 100:.2f}%",
-                        delta="+15.53% vs Baseline",
-                        delta_color="normal",
-                    )
-                else:
-                    st.metric("Akurasi pada Data Uji", f"{test_acc * 100:.2f}%")
+                delta_val = "+6.84% vs Random Search" if model_choice == "CNN-WOA" else None
+                st.metric(
+                    "Akurasi pada Data Uji",
+                    f"{test_acc * 100:.2f}%",
+                    delta=delta_val,
+                    delta_color="normal" if delta_val else "off",
+                )
 
             hyperparams = model_metadata.get("hyperparameters", {})
             if hyperparams:
