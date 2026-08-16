@@ -42,10 +42,10 @@ def load_model(model_path: str) -> Any:
             f"Pastikan file model sudah diletakkan di folder models/."
         )
         
-    if model_path.endswith(".pt"):
+    if model_path.endswith("yolo_saved_model"):
         try:
             from ultralytics import YOLO
-            return YOLO(model_path)
+            return YOLO(model_path, task="classify")
         except Exception as e:
             raise RuntimeError(
                 f"Model YOLO tidak dapat dimuat di lingkungan ini.\n"

@@ -1,12 +1,14 @@
 """Komponen sidebar: pemilihan model + info pendukung."""
 
+from typing import Any
+
 import streamlit as st
 
 from config import CLASS_DISPLAY_NAMES, CLASS_NAMES, MODEL_OPTIONS
 from utils.model_loader import get_model_and_metadata
 
 
-def render_sidebar():
+def render_sidebar() -> tuple[str, Any, dict]:
     """Render sidebar dan return (model_choice, model, model_metadata)."""
     with st.sidebar:
         st.markdown("## ⚙️ Pengaturan Model")

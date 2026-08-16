@@ -51,6 +51,21 @@ def main():
     model_choice, model, model_metadata = render_sidebar()
 
     # ── Unggah citra ──────────────────────────────────────────────────
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stImage"] img {
+            max-height: 50vh;
+            width: auto;
+            object-fit: contain;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     images = render_upload_section()
 
     if not images:

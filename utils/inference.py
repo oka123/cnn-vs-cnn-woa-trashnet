@@ -48,11 +48,11 @@ def predict_single(model: tf.keras.Model, image_array: np.ndarray, filename: str
     )
 
 
-from typing import Any
+from typing import Any, Optional
 from PIL import Image
 
 def predict_batch(model: Any, image_arrays: list[np.ndarray],
-                   filenames: list[str], pil_images: list[Image.Image] = None) -> list[PredictionResult]:
+                   filenames: list[str], pil_images: Optional[list[Image.Image]] = None) -> list[PredictionResult]:
     """
     Jalankan prediksi untuk banyak citra sekaligus dalam satu batch.
     Jika model YOLO, akan menggunakan pil_images.
@@ -60,6 +60,8 @@ def predict_batch(model: Any, image_arrays: list[np.ndarray],
     """
     # Deteksi jika model adalah YOLO dari ultralytics
     if hasattr(model, "__class__") and "YOLO" in model.__class__.__name__:
+        if pil_images is None:
+            raise ValueError("pil_images harus disediakan untuk model YOLO.")
         start = time.perf_counter()
         yolo_results = model(pil_images, verbose=False)
         elapsed_ms_total = (time.perf_counter() - start) * 1000

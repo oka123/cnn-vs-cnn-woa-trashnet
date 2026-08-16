@@ -19,7 +19,8 @@ def render_upload_section():
             "Pilih satu atau beberapa gambar sampah",
             type=ALLOWED_EXTENSIONS,
             accept_multiple_files=True,
-            help=f"Format didukung: {', '.join(ALLOWED_EXTENSIONS)}. Maksimum {MAX_UPLOAD_FILES} file.",
+            help=f"Mendukung semua format gambar umum: JPG, PNG, WebP, BMP, GIF, TIFF, AVIF, dan lainnya. "
+                 f"Maksimum {MAX_UPLOAD_FILES} file.",
         )
         if uploaded_files:
             all_uploaded_files.extend(uploaded_files)

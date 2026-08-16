@@ -124,15 +124,21 @@ def render_results_section(images_with_results):
                 st.image(prep_arr, caption=f"{fname}\n(224×224×3)", width="stretch")
 
     # ── Tabel ringkasan agregat (bisa diunduh) ────────────────────────
-    summary_df = pd.DataFrame([
-        {
+    summary_rows = []
+    for filename, _, _, result in images_with_results:
+        row = {
             "Nama File": filename,
             "Kelas Prediksi": CLASS_DISPLAY_NAMES.get(result.predicted_class, result.predicted_class),
             "Confidence (%)": round(result.confidence * 100, 2),
             "Waktu Inferensi (ms)": round(result.inference_time_ms, 2),
         }
-        for filename, _, _, result in images_with_results
-    ])
+        # Tambahkan probabilitas tiap kelas ke ringkasan
+        for cls_name, prob_val in result.probabilities.items():
+            col_label = f"{CLASS_DISPLAY_NAMES.get(cls_name, cls_name)} (%)"
+            row[col_label] = round(prob_val * 100, 2)
+        summary_rows.append(row)
+
+    summary_df = pd.DataFrame(summary_rows)
 
     with st.expander("📄 Tabel Ringkasan Seluruh Hasil", expanded=(n > 1)):
         st.dataframe(summary_df, width="stretch", hide_index=True)

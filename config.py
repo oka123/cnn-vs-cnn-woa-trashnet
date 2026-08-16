@@ -59,7 +59,7 @@ MODEL_OPTIONS = {
         "metadata_key": "efficientnetb0"
     },
     "YOLO26": {
-        "path": os.path.join(MODELS_DIR, "yolo.pt"),
+        "path": os.path.join(MODELS_DIR, "yolo_saved_model"),
         "description": "Model klasifikasi TrashNet menggunakan arsitektur YOLOv26 dari Ultralytics.",
         "metadata_key": "yolo"
     }
@@ -69,4 +69,9 @@ METADATA_PATH = os.path.join(MODELS_DIR, "model_metadata.json")
 
 # ── Batas unggah ─────────────────────────────────────────────────────────
 MAX_UPLOAD_FILES = 20
-ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp"]
+ALLOWED_EXTENSIONS = [
+    "jpg", "jpeg", "png", "webp",  # Format umum
+    "bmp", "gif", "tiff", "tif",  # Format lossless
+    "avif", "heic", "heif",       # Format modern
+    "ppm", "pgm", "ico",          # Format lainnya
+]
